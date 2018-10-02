@@ -76,7 +76,7 @@ export default {
   mixins: [createdHookMixin],
   computed: {
     availableParts() {
-      return this.$store.state.parts;
+      return this.$store.state.robots.parts;
     },
     saleBorderClass() {
       return this.selectedRobot.head.onSale ? 'sale-border' : '';
@@ -100,7 +100,8 @@ export default {
           robot.base.cost;
         // avoid having multiple pointers to the same object
         // so push an empty array, the robot, and total cost
-      this.$store.commit('addRobotToCart', Object.assign({}, robot, { cost }));
+      this.$store.dispatch('addRobotToCart', Object.assign({}, robot, { cost }))
+        .then(() => this.$router.push('./cart'));
       this.addedToCart = true;
     },
   },
